@@ -1,4 +1,4 @@
-    // import "./Register.css";
+    import "./Register.css";
     import { useState } from "react";
     import axios from "axios";
     export default  function Register(){
@@ -21,12 +21,12 @@
         
         
     return (
-        // <div className="App-Register-Row">
+        <div className="App-Register-Row">
         <div>
             <h2>Register Form</h2>
             {error}
             <p>
-            <input type="text" onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+            <input type="text" onChange={(e) => setUser({ ...user, firstname: e.target.value })}
             placeholder="First Name"/>
             </p>
 
@@ -47,6 +47,6 @@
 
             <button onClick={handleSubmit}>Submit</button>
         </div>
-                // </div>
+                </div>
         );
     }

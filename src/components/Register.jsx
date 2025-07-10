@@ -8,7 +8,7 @@ export default function Register() {
   const [user, setUser] = useState({});
   const [login, setLogin] = useState({});
   const [error, setError] = useState();
-  const [loginError, setLoginError] = useState(); // ✅ added missing state
+  const [loginError, setLoginError] = useState(); 
 
   const handleSubmit = async () => {
     try {
@@ -17,7 +17,7 @@ export default function Register() {
       const result = await axios.post(url, user);
       setError("Data saved successfully");
     } catch (err) {
-      console.error(err); // ✅ fixed
+      console.error(err); 
       setError("Something went wrong");
     }
   };
@@ -74,11 +74,7 @@ export default function Register() {
       </div>
       <div>
         <h2>Login</h2>
-        {loginError && (
-          <p style={{ color: loginError.startsWith("✅") ? "green" : "red" }}>
-            {loginError}
-          </p>
-        )}
+        {loginError}
         <p>
           <input
             type="text"

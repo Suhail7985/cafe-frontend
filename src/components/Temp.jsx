@@ -17,20 +17,20 @@
 // }
 
 
-import {useState} from "react";
-export default function Temp(){
-    const [score,setScore]=useState(0);
-    const increase= ()=>{
-        setScore(score+1);
-    };
-    const decrease= ()=>{
-        setScore(score-1);
-    };
+// import {useState} from "react";
+// export default function Temp(){
+//     const [score,setScore]=useState(0);
+//     const increase= ()=>{
+//         setScore(score+1);
+//     };
+//     const decrease= ()=>{
+//         setScore(score-1);
+//     };
     
-    return <div>{score}
-    <p>
-        <button onClick={increase}>Increase</button>
-        <button onClick={decrease}>Decrease</button>
-    </p>
-    </div>
-}
+//     return <div>{score}
+//     <p>
+//         <button onClick={increase}>Increase</button>
+//         <button onClick={decrease}>Decrease</button>
+//     </p>
+//     </div>
+// }

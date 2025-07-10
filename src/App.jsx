@@ -1,14 +1,14 @@
 // src/App.jsx
 import './App.css';
-import Home from './components/Home.jsx';
-import Temp from './components/Temp.jsx';
+import Register from './components/Register';
 
 function App() {
   return (
-    <>
-      <Home name="John" age={25} />
-      <Temp />
-    </>
+    <div>
+      <h1>Cafe Frontend</h1>
+      <Register />
+      <p>This is footer</p>
+    </div>
   );
 }
 

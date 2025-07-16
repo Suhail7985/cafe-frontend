@@ -4,19 +4,17 @@
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-    background-color: rgb(126, 128, 110);
-    /* width: 300px; */
-
 }
 
-.App-Register-Row input,button {
+.App-Register-Row input {
     padding: 5px;
     margin: 5px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-
-
 .App-Register-Row button {
-    width: 90%;
-    
+    padding: 5px;
+    margin: 5px;
+    width: 100%;
 }

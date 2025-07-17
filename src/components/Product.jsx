@@ -29,6 +29,9 @@ export default function Product() {
   };
   return (
     <div>
+      
+      <h3>{user.firstname}</h3>
+      { }
       {products &&
         products.map((product) => (
           <div key={product._id}>

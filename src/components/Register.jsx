@@ -53,6 +53,13 @@ export default function Register() {
           />
         </p>
         <p>
+          <input
+            type="phoneNo"
+            placeholder="Enter Phone Number"
+            onChange={(e) => setUser({ ...user, phoneNo: e.target.value })}
+          />
+        </p>
+        <p>
           <button onClick={handleSubmit}>Submit</button>
         </p>
         <hr />

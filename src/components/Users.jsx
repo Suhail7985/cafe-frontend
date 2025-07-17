@@ -174,6 +174,14 @@ export default function Users() {
             onChange={handleChange}
             required
           />
+          <input
+            name="phoneNo"
+            value={form.phoneNo}
+            type="text"
+            placeholder="New Phone Number"
+            onChange={handleChange}
+            required
+          />
           <select
             name="role"
             value={form.role}
@@ -214,6 +222,8 @@ export default function Users() {
               <th>Last Name</th>
               <th>Email Address</th>
               <th>Role</th>
+              <th>phoneNo</th>
+              <th>Actions</th>
             </tr>
           </thead>
           {users.map((value) => (
@@ -223,6 +233,8 @@ export default function Users() {
                 <td>{value.lastname}</td>
                 <td>{value.email}</td>
                 <td>{value.role}</td>
+                <td>{value.phoneNo}</td>
+
                 <td>
                   <button onClick={() => handleEdit(value)}>Edit</button>
                   <button onClick={() => handleDelete(value._id)}>

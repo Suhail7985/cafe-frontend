@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import './Login.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -21,9 +22,10 @@ export default function Login() {
     }
   };
   return (
-    <div>
+  <div className="login-page">
+    <div className="login-form">
       <h2>Login</h2>
-      {error}
+      {error && <div className="error-message">{error}</div>}
       <p>
         <input
           type="text"
@@ -44,5 +46,5 @@ export default function Login() {
       <hr />
       <Link to="/register">Create Account</Link>
     </div>
-  );
-}
+  </div>
+)};

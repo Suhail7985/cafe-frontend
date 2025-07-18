@@ -1,48 +1,41 @@
-.App-Register-Row {
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #ffffff, #9da8d4);
+  background: linear-gradient(to right, #9da8d4, #ffffff);
   font-family: 'Poppins', sans-serif;
-  padding: 1rem;
 }
 
-.App-Register-Row > div {
+.login-form {
   background-color: #ffffff;
-  padding: 2rem 2.5rem;
+  padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 450px;
+  max-width: 400px;
 }
 
-.App-Register-Row h2 {
+.login-form h2 {
   text-align: center;
-  color: #444;
+  color: #004d66;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
 }
 
-.App-Register-Row input {
+.login-form input {
   width: 100%;
   padding: 0.75rem;
-  margin-bottom: 1rem;
+  margin: 0.7rem 0;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s;
 }
 
-.App-Register-Row input:focus {
-  outline: none;
-  border-color: #f8b500;
-  box-shadow: 0 0 5px rgba(248, 181, 0, 0.4);
-}
-
-.App-Register-Row button {
+.login-form button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #f8b500;
+  background-color: #00acc1;
   color: white;
   border: none;
   border-radius: 8px;
@@ -51,19 +44,26 @@
   transition: background-color 0.3s;
 }
 
-.App-Register-Row button:hover {
-  background-color: #0019d9;
+.login-form button:hover {
+  background-color: #00838f;
 }
 
-.App-Register-Row a {
+.login-form a {
   display: block;
   text-align: center;
   margin-top: 1rem;
-  color: #444;
+  color: #004466;
   text-decoration: none;
   font-weight: 500;
 }
 
-.App-Register-Row a:hover {
+.login-form a:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }

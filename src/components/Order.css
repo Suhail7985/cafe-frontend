@@ -1,0 +1,98 @@
+.order-page {
+  padding: 3rem 1rem;
+  background: linear-gradient(to right, #f0fbff, #d6f0ff);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.order-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #003c7e; /* Darker blue */
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.order-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+  transform: scale(1.01);
+}
+
+.order-info p {
+  font-size: 1.1rem;
+  color: #002c5f;
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+.order-table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.order-table th,
+.order-table td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #c0cce0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #002d63;
+}
+
+.order-table th {
+  background-color: #e8f3ff;
+  color: #003b8e;
+  font-weight: 600;
+}
+
+.order-table td {
+  background-color: #f7fbff;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #cfddeb;
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .order-card {
+    padding: 1.2rem;
+  }
+
+  .order-table th,
+  .order-table td {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .order-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-table th,
+  .order-table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .order-title {
+    font-size: 1.7rem;
+  }
+}

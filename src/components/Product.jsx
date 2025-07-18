@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import "./Product.css";
+
 import { AppContext } from "../App";
 export default function Product() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -28,20 +30,30 @@ export default function Product() {
     }
   };
   return (
-    <div>
-      
-      <h3>{user.firstname}</h3>
-      { }
-      {products &&
-        products.map((product) => (
-          <div key={product._id}>
-            <img src={product.imgUrl} width={100}/>
-            <h3>{product.productName}</h3>
-            <p>{product.description}</p>
-            <h4>{product.price}</h4>
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
-          </div>
-        ))}
-    </div>
+    <div className="product-page">
+  {user?.firstname && (
+    <h3 className="user-name">Welcome, {user.firstname}</h3>
+  )}
+
+
+  <div className="product-grid">
+    {products &&
+      products.map((product) => (
+        <div key={product._id} className="product-card">
+          <img src={product.imgUrl} width={100} />
+          <h3>{product.productName}</h3>
+          <p>{product.description}</p>
+          <h4>{product.price}</h4>
+          <button
+            className="add-to-cart-btn"
+            onClick={() => addToCart(product)}
+          >
+            Add to Cart
+          </button>
+        </div>
+      ))}
+  </div>
+   
+</div>
   );
 }

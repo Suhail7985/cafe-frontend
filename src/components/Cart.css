@@ -1,0 +1,113 @@
+.cart-container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 3rem;
+  background: linear-gradient(to right, #fff3e0, #ffecd2);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+.cart-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.cart-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cart-item span {
+  font-size: 1.1rem;
+  color: #444;
+  flex: 1;
+  min-width: 20px;
+}
+
+.qty-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.qty-buttons button {
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.qty-buttons button:hover {
+  background-color: #e3584f;
+}
+
+.order-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+  color: #222;
+  margin-top: 2rem;
+  border-top: 2px dashed #ccc;
+  padding-top: 1rem;
+}
+
+.place-order-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to right, #4caf50, #81c784);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.place-order-btn:hover {
+  background: linear-gradient(to right, #388e3c, #66bb6a);
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .cart-container {
+    padding: 2rem 1rem;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .order-value,
+  .place-order-btn {
+    text-align: center;
+  }
+}

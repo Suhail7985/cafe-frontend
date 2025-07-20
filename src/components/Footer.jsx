@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         <p className="footer-copy">
-          &copy; {new Date().getFullYear()}Built by Mohd Suhail 💙
+          &copy; {new Date().getFullYear()} <span></span>Built by Mohd Suhail 💙
         </p>
       </div>
     </footer>

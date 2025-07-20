@@ -43,7 +43,7 @@ export default function Product() {
           <img src={product.imgUrl} width={100} />
           <h3>{product.productName}</h3>
           <p>{product.description}</p>
-          <h4>{product.price}</h4>
+          <h4>₹{product.price}</h4>
           <button
             className="add-to-cart-btn"
             onClick={() => addToCart(product)}

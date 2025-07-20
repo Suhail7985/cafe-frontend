@@ -7,11 +7,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <div className="footer-links">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-        </div>
+        
 
         <div className="footer-socials">
           <a href="https://github.com" target="_blank" rel="noreferrer"><FaGithub /></a>

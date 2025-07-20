@@ -1,0 +1,84 @@
+body {
+  background: linear-gradient(to right, #e3f2fd, #ffffff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #dfe9f3, #ffffff);
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-card h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-card input {
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+.profile-card input:focus {
+  box-shadow: 0 0 0 2px #2196f3;
+}
+
+.update-btn,
+.logout-btn {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.update-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.update-btn:hover {
+  background-color: #1e88e5;
+  transform: scale(1.02);
+}
+
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #e53935;
+  transform: scale(1.02);
+}
+
+.error-msg {
+  color: #d32f2f;
+  background-color: #fdecea;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}

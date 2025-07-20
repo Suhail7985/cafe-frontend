@@ -1,0 +1,44 @@
+.admin-container {
+  font-family: 'Poppins', sans-serif;
+  background: #f7f9fc;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.admin-nav a:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+.admin-nav a.active {
+  background-color: #2980b9;
+  color: white;
+}
+
+.admin-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { useContext } from "react";
 import { AppContext } from "../App";
-import { useFetcher } from "react-router-dom";
+import "./Orders.css";
+
 export default function Orders() {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const [limit,setLimit]= useState(3)
+  const [limit, setLimit] = useState(3);
   const [totalPages, setTotalPages] = useState(1);
   const [status, setStatus] = useState("Pending");
   const { user } = useContext(AppContext);
   const API_URL = import.meta.env.VITE_API_URL;
+
   const fetchOrders = async () => {
     try {
       const url = `${API_URL}/api/orders/?page=${page}&limit=${limit}&status=${status}`;
@@ -24,58 +25,96 @@ export default function Orders() {
       setTotalPages(result.data.total);
     } catch (err) {
       console.log(err);
-      setError("Something went wrong");
+      setError("Something went wrong while fetching orders.");
     }
   };
+
   useEffect(() => {
     fetchOrders();
   }, [page, limit, status]);
-  const updateOrder = async (status, id) => {
+
+  const updateOrder = async (newStatus, id) => {
     try {
       const url = `${API_URL}/api/orders/${id}`;
-      const result = await axios.patch(url, { status });
+      await axios.patch(url, { status: newStatus });
       fetchOrders();
     } catch (err) {
       console.log(err);
-      setError("Something went wrong");
+      setError("Error updating order.");
     }
   };
+
   return (
-    <div>
+    <div className="orders-container">
       <h2>Order Management</h2>
-      <div>
-        <select defaultValue="Pending" onChange={(e) => setStatus(e.target.value)}>
+
+      {error && <div className="error">{error}</div>}
+
+      <div className="filters">
+        <label htmlFor="status">Filter by Status:</label>
+        <select
+          id="status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value="">All</option>
-          <option value="Pending" >
-            Pending
-          </option>
+          <option value="Pending">Pending</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
         </select>
-        {/* <button>Show</button> */}
       </div>
-      {orders &&
-        orders.map((order) => (
-          <li>
-            {order._id}-{order.orderValue}-{order.status}-
-            {order.status === "Pending" && (
-              <>
-                <button onClick={() => updateOrder("cancelled", order._id)}>
-                  Cancel
-                </button>
-                -
-                <button onClick={() => updateOrder("completed", order._id)}>
-                  Complete
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-        <div>
+
+      <table className="order-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>₹{order.orderValue}</td>
+              <td>
+                <span className={`status ${order.status.toLowerCase()}`}>
+                  {order.status}
+                </span>
+              </td>
+              <td>
+                {order.status === "Pending" ? (
+                  <>
+                    <button
+                      onClick={() => updateOrder("cancelled", order._id)}
+                      className="cancel-btn"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => updateOrder("completed", order._id)}
+                      className="complete-btn"
+                    >
+                      Complete
+                    </button>
+                  </>
+                ) : (
+                  <em>No actions</em>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
         </button>
-        Page {page} of {totalPages}
+        <span>
+          Page {page} of {totalPages}
+        </span>
         <button
           disabled={page === totalPages}
           onClick={() => setPage(page + 1)}

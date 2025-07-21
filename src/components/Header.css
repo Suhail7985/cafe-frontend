@@ -1,11 +1,11 @@
-/* ========== BASIC HEADER LAYOUT ========== */
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px;
-  background: linear-gradient(90deg, #ffffff, #d0e6ff); /* Creamy beige gradient */
-  color: #5e4033; /* Deep hazelnut brown */
+  background: linear-gradient(90deg, #ffffff, #d0e6ff);
+  color: #5e4033; 
   font-family: 'Playfair Display', serif;
   flex-wrap: wrap;
   position: sticky;
@@ -14,17 +14,15 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo / Left Section */
 .header-left h1 {
   margin: 0;
   font-size: 2rem;
-  color: #000000; /* Rich brown */
+  color: #000000; 
   white-space: nowrap;
   letter-spacing: 1px;
   
 }
 
-/* Navigation / Right Section */
 .header-right {
   display: flex;
   flex-wrap: wrap;
@@ -32,7 +30,6 @@
   
 }
 
-/* Navigation Links */
 .header-right a {
   color: #003494;
   text-decoration: none;
@@ -44,11 +41,10 @@
 }
 
 .header-right a:hover {
-  background-color: rgba(127, 85, 57, 0.15); /* hazelnut tint on hover */
+  background-color: rgba(127, 85, 57, 0.15); 
   color: #7f5539;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;

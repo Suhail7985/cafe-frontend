@@ -13,10 +13,12 @@ export default function Product() {
 
   const fetchProducts = async (page) => {
     try {
+      setError("Loding");
       const url = `${API_URL}/api/products?page=${page}&limit=6`;
       const result = await axios.get(url);
       setProducts(result.data.products);
       setTotalPages(result.data.total);
+      setError()
     } catch (err) {
       console.log(err);
       setError("Something went wrong");

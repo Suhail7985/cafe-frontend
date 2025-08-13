@@ -1,3 +1,4 @@
+/* Mobile-first responsive login */
 .login-page {
   display: flex;
   justify-content: center;
@@ -5,21 +6,22 @@
   min-height: 100vh;
   background: linear-gradient(to right, #9da8d4, #ffffff);
   font-family: 'Poppins', sans-serif;
+  padding: 1rem;
 }
 
 .login-form {
   background-color: #ffffff;
-  padding: 2.5rem;
+  padding: 1.5rem;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
 }
 
 .login-form h2 {
   text-align: center;
   color: #004d66;
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: 1.5rem;
 }
 
@@ -30,6 +32,14 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #00acc1;
+  box-shadow: 0 0 0 2px rgba(0, 172, 193, 0.2);
 }
 
 .login-form button {
@@ -42,10 +52,16 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  min-height: 44px;
+  font-weight: 600;
 }
 
 .login-form button:hover {
   background-color: #00838f;
+}
+
+.login-form button:active {
+  transform: scale(0.98);
 }
 
 .login-form a {
@@ -55,6 +71,7 @@
   color: #004466;
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .login-form a:hover {
@@ -62,8 +79,96 @@
 }
 
 .error-message {
-  color: red;
+  color: #d32f2f;
   text-align: center;
   margin-bottom: 1rem;
   font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  background-color: #ffebee;
+  border-radius: 6px;
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) {
+  .login-page {
+    padding: 2rem;
+  }
+  
+  .login-form {
+    padding: 2rem;
+    max-width: 400px;
+  }
+  
+  .login-form h2 {
+    font-size: 1.8rem;
+  }
+  
+  .login-form input {
+    padding: 0.8rem;
+    font-size: 1.05rem;
+  }
+  
+  .login-form button {
+    padding: 0.8rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .login-page {
+    padding: 3rem;
+  }
+  
+  .login-form {
+    padding: 2.5rem;
+    max-width: 450px;
+  }
+  
+  .login-form h2 {
+    font-size: 2rem;
+  }
+  
+  .login-form input {
+    padding: 0.9rem;
+    font-size: 1.1rem;
+  }
+  
+  .login-form button {
+    padding: 0.9rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .login-page {
+    padding: 0.5rem;
+  }
+  
+  .login-form {
+    padding: 1.25rem;
+    max-width: 320px;
+  }
+  
+  .login-form h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .login-form input {
+    padding: 0.7rem;
+    margin: 0.6rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .login-form button {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+  
+  .login-form a {
+    font-size: 0.85rem;
+  }
 }

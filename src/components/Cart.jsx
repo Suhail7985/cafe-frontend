@@ -9,6 +9,7 @@ export default function Cart() {
   const [orderValue, setOrderValue] = useState(0);
   const [error, setError] = useState();
   const Navigate = useNavigate();
+  const navigate= useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
   const increment = (id, qty) => {
     const updatedCart = cart.map((product) =>
@@ -18,10 +19,17 @@ export default function Cart() {
   };
 
   const decrement = (id, qty) => {
-    const updatedCart = cart.map((product) =>
-      product._id === id ? { ...product, qty: qty - 1 } : product
-    );
-    setCart(updatedCart);
+    if (qty <= 1) {
+      // Remove item from cart when quantity reaches 0 or below
+      const updatedCart = cart.filter((product) => product._id !== id);
+      setCart(updatedCart);
+    } else {
+      // Decrease quantity if it's greater than 1
+      const updatedCart = cart.map((product) =>
+        product._id === id ? { ...product, qty: qty - 1 } : product
+      );
+      setCart(updatedCart);
+    }
   };
 
   useEffect(() => {
@@ -70,19 +78,30 @@ export default function Cart() {
           </div>
         )
     )}
-  <h5 className="order-value">Order Value: ₹{orderValue}</h5>
-  {user?.token ? (
-    <button className="place-order-btn" onClick={placeOrder}>
-      Place Order
-    </button>
-  ) : (
-    <button
-      className="place-order-btn"
-      onClick={() => Navigate("/login")}
-    >
-      Login to Order
-    </button>
-  )}
+<h5 className="order-value">Order Value: ₹{orderValue}</h5>
+{user?.token ? (
+  <button
+    className="place-order-btn"
+    onClick={() => {
+      const hasItems = cart.some(item => item.qty > 0);
+      if (!hasItems) {
+        alert("Your cart is empty! Please add items before placing an order.");
+        return;
+      }
+      navigate("/payment");
+    }}
+  >
+    Place Order
+  </button>
+) : (
+  <button
+    className="place-order-btn"
+    onClick={() => navigate("/login")}
+  >
+    Login to Order
+  </button>
+)}
+
 </div>
   );
 }

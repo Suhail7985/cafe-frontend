@@ -29,13 +29,18 @@ export default function Product() {
     fetchProducts(page);
   }, [page]);
 
-  const addToCart = (product) => {
-    const found = cart.find((item) => item._id === product._id);
-    if (!found) {
-      product.qty = 1;
-      setCart([...cart, product]);
+const addToCart = (product) => {
+  setCart((prevCart) => {
+    const found = prevCart.find((item) => item._id === product._id);
+    if (found) {
+      // Already in cart → do nothing
+      return prevCart;
+    } else {
+      // Not in cart → add it
+      return [...prevCart, { ...product, qty: 1 }];
     }
-  };
+  });
+};
 
   const nextPage = () => {
     if (page < totalPages) setPage(page + 1);

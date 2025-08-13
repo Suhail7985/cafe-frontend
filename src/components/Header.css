@@ -7,7 +7,7 @@
   background: linear-gradient(90deg, #ffffff, #d0e6ff);
   color: #5e4033; 
   font-family: 'Playfair Display', serif;
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

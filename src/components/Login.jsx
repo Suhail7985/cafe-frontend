@@ -13,12 +13,20 @@ export default function Login() {
   const handleSubmit = async () => {
     try {
       const url = `${API_URL}/api/users/login`;
+      console.log("Login request to:", url);
+      console.log("Login data:", { email: user.email, password: user.password ? "***" : "undefined" });
+      
       const result = await axios.post(url, user);
+      console.log("Login successful:", result.data);
       setUser(result.data);
       Navigate("/");
     } catch (err) {
-      console.log(err);
-      setError("Something went wrong");
+      console.error("Login error details:", {
+        status: err.response?.status,
+        message: err.response?.data?.message,
+        data: err.response?.data
+      });
+      setError(err.response?.data?.message || "Something went wrong");
     }
   };
   return (

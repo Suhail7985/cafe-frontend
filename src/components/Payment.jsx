@@ -185,7 +185,9 @@ export default function Payment() {
 
       await loadRazorpay();
 
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+      console.log("Creating order with amount:", Number(total.toFixed(2)));
+      
       const orderRes = await fetch(`${baseUrl}/api/payments/razorpay/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -199,11 +201,19 @@ export default function Payment() {
         })
       });
 
-      if (!orderRes.ok) {
-        throw new Error("Failed to create order");
-      }
-      const { orderId, amount, currency, keyId } = await orderRes.json();
+      console.log("Order response status:", orderRes.status);
 
+      if (!orderRes.ok) {
+        const errorData = await orderRes.json();
+        console.error("Order creation failed:", errorData);
+        throw new Error(errorData.message || "Failed to create order");
+      }
+      const orderData = await orderRes.json();
+      console.log("Order created successfully:", orderData);
+      const { orderId, amount, currency, keyId } = orderData;
+
+      console.log("Razorpay options:", { keyId, orderId, amount, currency });
+      
       const options = {
         key: keyId,
         order_id: orderId,
@@ -245,18 +255,7 @@ export default function Payment() {
             setIsProcessing(false);
           }
         },
-        config: {
-          display: {
-            blocks: {
-              upi: {
-                name: "Pay via UPI",
-                instruments: [ { method: "upi" } ]
-              }
-            },
-            sequence: [ "block.upi" ],
-            preferences: { show_default_blocks: false }
-          }
-        }
+        // Remove the restrictive config to show all available payment methods
       };
 
       const rzp = new window.Razorpay(options);

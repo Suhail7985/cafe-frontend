@@ -2,10 +2,12 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../App";
 import "./Payment.css";
+import axios from "axios";
 
 export default function Payment() {
-  const { cart, user } = useContext(AppContext);
+  const { cart, user, setCart } = useContext(AppContext);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [formData, setFormData] = useState({
@@ -29,6 +31,39 @@ export default function Payment() {
   const deliveryFee = subtotal > 500 ? 0 : 50;
   const tax = subtotal * 0.05;
   const total = subtotal + deliveryFee + tax;
+
+  // Function to create order in database
+  const createOrder = async () => {
+    try {
+      const url = `${API_URL}/api/orders`;
+      const newOrder = {
+        userId: user.id || user._id, // Handle both id formats
+        email: user.email,
+        orderValue: total,
+        items: cart,
+        deliveryAddress: {
+          name: formData.name,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country
+        }
+      };
+      
+      const result = await axios.post(url, newOrder);
+      console.log("Order created:", result.data);
+      
+      // Clear cart after successful order
+      setCart([]);
+      
+      return result.data;
+    } catch (err) {
+      console.error("Error creating order:", err);
+      throw new Error("Failed to create order");
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -158,12 +193,15 @@ export default function Payment() {
             });
             const verifyData = await verifyRes.json();
             if (verifyRes.ok && verifyData.success) {
-              alert("Payment successful! Redirecting to order confirmation...");
+              // Create order after successful payment
+              await createOrder();
+              alert("Payment successful! Order placed successfully.");
               navigate("/order");
             } else {
               setUpiError(verifyData.message || "Verification failed.");
             }
           } catch (e) {
+            console.error("Payment verification error:", e);
             setUpiError("Verification error. Please try again.");
           } finally {
             setIsProcessing(false);
@@ -180,12 +218,22 @@ export default function Payment() {
     }
   };
 
-  const handleCOD = (e) => {
+  const handleCOD = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    alert("Order placed successfully with Cash on Delivery!");
-    navigate("/order");
+    try {
+      setIsProcessing(true);
+      // Create order for COD
+      await createOrder();
+      alert("Order placed successfully with Cash on Delivery!");
+      navigate("/order");
+    } catch (err) {
+      console.error("COD order error:", err);
+      alert("Failed to place order. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (cart.length === 0) {

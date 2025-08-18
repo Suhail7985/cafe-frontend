@@ -15,6 +15,8 @@ import Login from "./components/Login";
 import Products from "./components/Products";
 import Payment from "./components/Payment";
 import Home from "./components/Home"; // ✅ New Home component
+import Subscribers from "./components/Subscribers";
+
 
 import "./App.css";
 
@@ -42,6 +44,7 @@ function App() {
               <Route index element={<Users />} />
               <Route path="products" element={<Product />} /> {/* ✅ Keep old Product component for admin */}
               <Route path="orders" element={<Orders />} />
+              <Route path="subscribers" element={<Subscribers />} />
             </Route>
           </Routes>
           <Footer />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import "./Admin.css";
+import Subscribers from "./Subscribers";
 
 export default function Admin() {
   return (
@@ -9,6 +10,7 @@ export default function Admin() {
         <NavLink to="/admin" end>Users</NavLink>
         <NavLink to="/admin/products">Products</NavLink>
         <NavLink to="/admin/orders">Orders</NavLink>
+        <NavLink to="/admin/subscribers">Subscribers</NavLink>
       </div>
       <div className="admin-content">
         <Outlet />

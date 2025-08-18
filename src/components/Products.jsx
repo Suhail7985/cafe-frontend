@@ -13,7 +13,7 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const [productsPerPage] = useState(9); // Products per page
+  const [productsPerPage] = useState(12); // Products per page
   const { user, cart, setCart } = useContext(AppContext);
 
   // Fetch all products at once

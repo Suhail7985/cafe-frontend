@@ -3,67 +3,173 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #ffffff, #9da8d4);
+  background:
+    radial-gradient(900px 500px at 85% 10%, rgba(118, 75, 162, 0.18), transparent),
+    radial-gradient(700px 400px at 15% 20%, rgba(255, 215, 0, 0.22), transparent),
+    linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
   font-family: 'Poppins', sans-serif;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
-.App-Register-Row > div {
-  background-color: #ffffff;
-  padding: 2rem 2.5rem;
+.register-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  padding: 2rem 2.25rem;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   width: 100%;
-  max-width: 450px;
+  max-width: 560px;
 }
 
 .App-Register-Row h2 {
   text-align: center;
-  color: #444;
-  margin-bottom: 1.5rem;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  font-size: 1.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
-.App-Register-Row input {
+.register-form-fields { display: grid; gap: 12px; }
+.field { display: grid; gap: 6px; }
+.field span { color: #334155; font-weight: 600; font-size: 0.95rem; }
+.register-card input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.9rem 0.95rem 0.9rem 2.6rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #ffffff;
+  min-height: 46px;
 }
 
-.App-Register-Row input:focus {
+/* Pseudo-icons via data-URI */
+.register-card p:nth-of-type(1) input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 18px;
+}
+.register-card p:nth-of-type(2) input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 18px;
+}
+.register-card p:nth-of-type(3) input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v16H4z' fill='none'/%3E%3Cpath d='M22 6l-10 7L2 6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 18px;
+}
+.register-card p:nth-of-type(4) input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 18px;
+}
+.register-card p:nth-of-type(5) input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92V19a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2 5.18 2 2 0 0 1 4 3h2.09a2 2 0 0 1 2 1.72c.12.81.3 1.6.57 2.34a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l.92-.32a2 2 0 0 1 2.11.45c.74.27 1.53.45 2.34.57A2 2 0 0 1 21 21h.09A2 2 0 0 1 23 19v-2.08a2 2 0 0 1-1.08-1.72z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px 50%;
+  background-size: 18px;
+}
+
+.register-card input:focus {
   outline: none;
-  border-color: #f8b500;
-  box-shadow: 0 0 5px rgba(248, 181, 0, 0.4);
+  border-color: #ffd700;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.18);
 }
 
-.App-Register-Row button {
+.submit-btn {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #f8b500;
-  color: white;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  color: #1e293b;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.08s ease, box-shadow 0.2s ease;
+  font-weight: 800;
 }
 
-.App-Register-Row button:hover {
-  background-color: #0019d9;
+.submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(255, 215, 0, 0.25);
 }
 
-.App-Register-Row a {
+.register-card a {
   display: block;
   text-align: center;
   margin-top: 1rem;
-  color: #444;
+  color: #334155;
   text-decoration: none;
   font-weight: 500;
 }
 
-.App-Register-Row a:hover {
+.register-card a:hover {
   text-decoration: underline;
+}
+
+.register-error {
+  color: #b91c1c;
+  background: #fff1f2;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Alignment fixes for narrow screens */
+@media (max-width: 420px) {
+  .register-card { padding: 1.4rem; }
+  .register-card input { margin-bottom: 0.85rem; }
+}
+
+/* Password toggle alignment */
+.password-wrap { position: relative; width: 100%; }
+.password-wrap input { padding-right: 60px; line-height: 1.25; }
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: -15px;
+  bottom: 0;
+  margin: auto 0;
+  transform: none;
+  background: transparent;
+  color: #64748b;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  width: 36px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+.toggle-password:focus { outline: none; }
+.toggle-password:hover { color: #334155; }
+.toggle-password svg { width: 18px; height: 18px; display: block; pointer-events: none; }
+
+/* Force center alignment override (prevents accidental misalignment) */
+.register-card .password-wrap { position: relative; }
+.register-card .password-wrap input { padding-right: 56px !important; line-height: 1.25; }
+.register-card .password-wrap .toggle-password {
+  top: -15px !important;
+  bottom: 0;
+  margin-block: auto;
+  transform: none !important;
+  right: 12px !important;
+  height: 50% !important;
+  width: 36px !important;
+  display: grid !important;
+  place-items: center !important;
 }

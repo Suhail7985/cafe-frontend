@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Register from "./components/Register";
@@ -24,7 +24,26 @@ export const AppContext = createContext();
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem("user");
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    try {
+      if (user && Object.keys(user).length > 0) {
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        localStorage.removeItem("user");
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [user]);
 
   return (
     <div className="App-Container">

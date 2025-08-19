@@ -30,6 +30,7 @@ export default function Profile() {
 
   const logout = () => {
     setUser({});
+    try { localStorage.removeItem("user"); } catch {}
     Navigate("/");
   };
 

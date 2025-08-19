@@ -22,6 +22,7 @@ export default function Login() {
       const payload = { email: user?.email, password: user?.password };
       const result = await axios.post(url, payload);
       setUser(result.data);
+      try { localStorage.setItem("user", JSON.stringify(result.data)); } catch {}
       Navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");

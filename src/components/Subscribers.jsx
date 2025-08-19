@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../App";
+import "./Subscribers.css";
 
 export default function Subscribers() {
   const { user } = useContext(AppContext);
@@ -64,19 +65,21 @@ export default function Subscribers() {
   };
 
   return (
-    <div>
+    <div className="subscribers-container">
       <h2>Subscribers</h2>
-      {error && <p>{error}</p>}
-      <div style={{ marginBottom: 12 }}>
-        <input
-          placeholder="Search by email"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button onClick={() => { setPage(1); fetchSubscribers(); }}>Search</button>
-        <button onClick={handleExport} style={{ marginLeft: 8 }}>Export CSV</button>
+      {error && <p className="error-message">{error}</p>}
+      <div className="subscribers-actions">
+        <div className="search-bar">
+          <input
+            placeholder="Search by email"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button onClick={() => { setPage(1); fetchSubscribers(); }}>Search</button>
+        </div>
+        <button className="export-btn" onClick={handleExport}>Export CSV</button>
       </div>
-      <table border="1" cellPadding="6">
+      <table className="subscribers-table">
         <thead>
           <tr>
             <th>Email</th>
@@ -90,7 +93,7 @@ export default function Subscribers() {
               <td>{s.email}</td>
               <td>{new Date(s.createdAt).toLocaleString()}</td>
               <td>
-                <button onClick={() => handleDelete(s._id)}>Delete</button>
+                <button className="delete-btn" onClick={() => handleDelete(s._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -101,9 +104,9 @@ export default function Subscribers() {
           )}
         </tbody>
       </table>
-      <div style={{ marginTop: 8 }}>
+      <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button>
-        <span style={{ margin: '0 8px' }}>Page {page} of {totalPages}</span>
+        <span>Page {page} of {totalPages}</span>
         <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next</button>
       </div>
     </div>

@@ -204,19 +204,19 @@ export default function Users() {
           {editId ? (
             <>
               <button onClick={handleUpdate}>Update</button>
-              <button onClick={handleCancel}>Cancel</button>
+              <button className="cancel" onClick={handleCancel}>Cancel</button>
             </>
           ) : (
             <button onClick={handleAdd}>Add</button>
           )}
         </form>
       </div>
-      <div>
-        <input type="text" onChange={(e) => setSearchVal(e.target.value)} />
+      <div className="search-bar">
+        <input type="text" onChange={(e) => setSearchVal(e.target.value)} placeholder="Search users..." />
         <button onClick={() => fetchUsers()}>Search</button>
       </div>
       <div>
-        <table border="1">
+        <table>
           <thead>
             <tr>
               <th>First Name</th>
@@ -247,7 +247,7 @@ export default function Users() {
           ))}
         </table>
       </div>
-      <div>
+      <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
         </button>

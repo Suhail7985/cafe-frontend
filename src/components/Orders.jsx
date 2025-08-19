@@ -50,7 +50,7 @@ export default function Orders() {
 
       {error && <div className="error">{error}</div>}
 
-      <div className="filters">
+      <div className="orders-filter">
         <label htmlFor="status">Filter by Status:</label>
         <select
           id="status"
@@ -108,7 +108,7 @@ export default function Orders() {
         </tbody>
       </table>
 
-      <div className="pagination">
+      <div className="orders-pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Previous
         </button>

@@ -170,7 +170,7 @@
   justify-content: space-around;
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: transparent;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -202,14 +202,15 @@
 }
 
 .hamburger:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transform: scale(1.05);
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .hamburger span {
   width: 20px;
   height: 2px;
-  background: white;
+  background: #111827;
   border-radius: 2px;
   transition: all 0.3s ease;
   transform-origin: center;
@@ -237,33 +238,44 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
-  z-index: 150;
+  z-index: 1100;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: all 0.3s ease;
 }
 
 .mobile-nav-overlay.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 /* Mobile Navigation Menu */
 .mobile-nav {
   position: fixed;
   top: 0;
-  right: -350px;
-  width: 350px;
+  right: 0;
+  width: min(85vw, 350px);
   height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  z-index: 200;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+  z-index: 1200;
+  transform: translateX(calc(100% + 12px));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s ease;
+  box-shadow: none;
   overflow-y: auto;
+  will-change: transform;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .mobile-nav.active {
-  right: 0;
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
 }
 
 .mobile-nav-header {
@@ -476,8 +488,7 @@
   }
   
   .mobile-nav {
-    width: 300px;
-    right: -300px;
+    width: 85vw;
   }
   
   .mobile-nav-header {

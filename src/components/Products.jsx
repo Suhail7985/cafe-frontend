@@ -138,7 +138,19 @@ export default function Products() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
+            aria-label="Search desserts"
           />
+          {searchTerm && (
+            <button
+              type="button"
+              className="clear-search-btn"
+              onClick={() => setSearchTerm("")}
+              aria-label="Clear search"
+              title="Clear"
+            >
+              ×
+            </button>
+          )}
         </div>
         <div className="filter-container">
           <select

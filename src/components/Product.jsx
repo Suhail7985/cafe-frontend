@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import axios from "axios";
+import { AppContext } from "../App";
 import "./Product.css";
 
 export default function Product() {
+  const { user } = useContext(AppContext);
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [products, setProducts] = useState([]);
@@ -11,37 +13,58 @@ export default function Product() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit] = useState(6);
   const [search, setSearch] = useState("");
-  const [editId, setEditId] = useState();
+  const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({
     productName: "",
     description: "",
     price: "",
     imgUrl: "",
   });
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formRef = useRef();
 
   const fetchProducts = async () => {
     try {
-      setError("Loading...");
-      const url = `${API_URL}/api/products?page=${page}&limit=${limit}&search=${encodeURIComponent(
-        search
-      )}`;
-      const result = await axios.get(url);
+      setLoading(true);
+      setError("");
+      const url = `${API_URL}/api/products?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`;
+      const result = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       setProducts(result.data.products || []);
       setTotalPages(result.data.total || 1);
-      setError("");
     } catch (err) {
       console.log(err);
-      setError("Something went wrong while fetching products.");
+      setError("Failed to fetch products. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, [page]);
+    if (user?.token) {
+      fetchProducts();
+    }
+  }, [page, user]);
+
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (search !== undefined) {
+        setPage(1);
+        fetchProducts();
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const resetForm = () => {
     setForm({ productName: "", description: "", price: "", imgUrl: "" });
+    setEditId(null);
+    setShowForm(false);
   };
 
   const handleChange = (e) => {
@@ -57,7 +80,7 @@ export default function Product() {
       return;
     }
     try {
-      setError("Saving...");
+      setError("Adding product...");
       const url = `${API_URL}/api/products`;
       const payload = {
         productName: form.productName,
@@ -65,13 +88,17 @@ export default function Product() {
         price: Number(form.price),
         imgUrl: form.imgUrl,
       };
-      await axios.post(url, payload);
+      await axios.post(url, payload, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       resetForm();
-      setError("Product added successfully.");
+      setError("");
       fetchProducts();
     } catch (err) {
       console.log(err);
-      setError("Failed to add product.");
+      setError(err.response?.data?.message || "Failed to add product.");
     }
   };
 
@@ -83,6 +110,7 @@ export default function Product() {
       price: String(prod.price ?? ""),
       imgUrl: prod.imgUrl || "",
     });
+    setShowForm(true);
   };
 
   const handleUpdate = async (e) => {
@@ -93,7 +121,7 @@ export default function Product() {
       return;
     }
     try {
-      setError("Updating...");
+      setError("Updating product...");
       const url = `${API_URL}/api/products/${editId}`;
       const payload = {
         productName: form.productName,
@@ -101,32 +129,42 @@ export default function Product() {
         price: Number(form.price),
         imgUrl: form.imgUrl,
       };
-      await axios.patch(url, payload);
-      setEditId(undefined);
+      await axios.patch(url, payload, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
+      setEditId(null);
       resetForm();
-      setError("Product updated successfully.");
+      setError("");
       fetchProducts();
     } catch (err) {
       console.log(err);
-      setError("Failed to update product.");
+      setError(err.response?.data?.message || "Failed to update product.");
     }
   };
 
   const handleCancel = () => {
-    setEditId(undefined);
     resetForm();
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) {
+      return;
+    }
     try {
-      setError("Deleting...");
+      setError("Deleting product...");
       const url = `${API_URL}/api/products/${id}`;
-      await axios.delete(url);
-      setError("Product deleted successfully.");
+      await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
+      setError("");
       fetchProducts();
     } catch (err) {
       console.log(err);
-      setError("Failed to delete product.");
+      setError(err.response?.data?.message || "Failed to delete product.");
     }
   };
 
@@ -139,88 +177,168 @@ export default function Product() {
   };
 
   return (
-    <div className="product-page">
-      <h2>Product Management</h2>
-      {error && <p className="error-msg">{error}</p>}
+    <div className="product-management-page">
+      <div className="product-management-header">
+        <h2>🍰 Product Management</h2>
+        <button 
+          className="add-product-btn"
+          onClick={() => {
+            resetForm();
+            setShowForm(!showForm);
+          }}
+        >
+          {showForm ? "✕ Cancel" : "+ Add New Product"}
+        </button>
+      </div>
 
-      <div className="admin-actions" style={{ marginBottom: 16 }}>
+      {error && (
+        <div className={`error-message ${error.includes("successfully") || error.includes("Adding") || error.includes("Updating") || error.includes("Deleting") ? "info" : ""}`}>
+          {error}
+        </div>
+      )}
+
+      {/* Search Bar */}
+      <div className="product-search-bar">
         <input
           type="text"
-          placeholder="Search by name"
+          placeholder="🔍 Search products by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="product-search-input"
         />
-        <button onClick={() => { setPage(1); fetchProducts(); }}>Search</button>
       </div>
 
-      <form ref={formRef} className="product-form" onSubmit={editId ? handleUpdate : handleAdd}>
-        <input
-          name="productName"
-          value={form.productName}
-          onChange={handleChange}
-          placeholder="Product Name"
-          required
-        />
-        <input
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-          required
-        />
-        <input
-          name="price"
-          type="number"
-          step="0.01"
-          value={form.price}
-          onChange={handleChange}
-          placeholder="Price"
-          required
-        />
-        <input
-          name="imgUrl"
-          value={form.imgUrl}
-          onChange={handleChange}
-          placeholder="Image URL"
-          required
-        />
-        {editId ? (
-          <>
-            <button type="submit">Update</button>
-            <button type="button" onClick={handleCancel}>Cancel</button>
-          </>
-        ) : (
-          <button type="submit">Add</button>
-        )}
-      </form>
-
-      <div className="product-grid">
-        {products &&
-          products.map((product) => (
-            <div key={product._id} className="product-card">
-              <img src={product.imgUrl} width={120} />
-              <h3>{product.productName}</h3>
-              <p>{product.description}</p>
-              <h4>₹{product.price}</h4>
-              <div className="admin-product-actions" style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => handleEdit(product)}>Edit</button>
-                <button onClick={() => handleDelete(product._id)}>Delete</button>
-              </div>
+      {/* Add/Edit Form */}
+      {showForm && (
+        <form ref={formRef} className="product-form" onSubmit={editId ? handleUpdate : handleAdd}>
+          <h3>{editId ? "Edit Product" : "Add New Product"}</h3>
+          <div className="product-form-grid">
+            <div className="form-group">
+              <label>Product Name *</label>
+              <input
+                name="productName"
+                value={form.productName}
+                onChange={handleChange}
+                placeholder="e.g., Chocolate Cake"
+                required
+              />
             </div>
-          ))}
-      </div>
+            <div className="form-group full-width">
+              <label>Description *</label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="Product description..."
+                rows="3"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Price (₹) *</label>
+              <input
+                name="price"
+                type="number"
+                step="0.01"
+                min="0"
+                value={form.price}
+                onChange={handleChange}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div className="form-group full-width">
+              <label>Image URL *</label>
+              <input
+                name="imgUrl"
+                type="url"
+                value={form.imgUrl}
+                onChange={handleChange}
+                placeholder="https://example.com/image.jpg"
+                required
+              />
+            </div>
+          </div>
+          <div className="form-actions">
+            <button type="submit" className="submit-btn">
+              {editId ? "Update Product" : "Add Product"}
+            </button>
+            <button type="button" onClick={handleCancel} className="cancel-btn">
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
 
-      <div className="pagination">
-        <button onClick={prevPage} disabled={page === 1}>
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button onClick={nextPage} disabled={page === totalPages}>
-          Next
-        </button>
-      </div>
+      {/* Products Grid */}
+      {loading && products.length === 0 ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading products...</p>
+        </div>
+      ) : products.length === 0 ? (
+        <div className="empty-products">
+          <div className="empty-icon">🍰</div>
+          <h3>No Products Found</h3>
+          <p>{search ? "Try a different search term." : "Start by adding a new product."}</p>
+        </div>
+      ) : (
+        <>
+          <div className="admin-product-grid">
+            {products.map((product) => (
+              <div key={product._id} className="admin-product-card">
+                <div className="admin-product-image">
+                  <img src={product.imgUrl} alt={product.productName} />
+                </div>
+                <div className="admin-product-info">
+                  <h3 className="admin-product-name">{product.productName}</h3>
+                  <p className="admin-product-description">{product.description}</p>
+                  <div className="admin-product-price">₹{product.price}</div>
+                </div>
+                <div className="admin-product-actions">
+                  <button 
+                    onClick={() => handleEdit(product)} 
+                    className="edit-product-btn"
+                    title="Edit product"
+                  >
+                    ✏️ Edit
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(product._id)} 
+                    className="delete-product-btn"
+                    title="Delete product"
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="product-pagination">
+              <button 
+                onClick={prevPage} 
+                disabled={page === 1}
+                className="pagination-btn"
+              >
+                ← Previous
+              </button>
+              <span className="page-info">
+                Page {page} of {totalPages}
+              </span>
+              <button 
+                onClick={nextPage} 
+                disabled={page === totalPages}
+                className="pagination-btn"
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

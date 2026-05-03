@@ -1,4 +1,4 @@
-/* Professional profile styling */
+/* Enhanced Profile Component Styles */
 .profile-wrapper {
   display: flex;
   justify-content: center;
@@ -9,105 +9,331 @@
     radial-gradient(700px 400px at 15% 20%, rgba(255, 215, 0, 0.22), transparent),
     linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
   padding: 1.25rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .profile-card {
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(10px);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 1.75rem;
   width: 100%;
-  max-width: 680px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.7);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem 1rem;
+  position: relative;
 }
 
-.profile-card h2 {
-  grid-column: 1 / -1;
+/* Profile Header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.profile-header h2 {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   margin: 0 0 0.5rem 0;
-  color: #0f172a;
-  font-size: 1.9rem;
-  font-weight: 800;
+  color: #1e293b;
+  font-size: 1.75rem;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-.avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  display: grid;
-  place-items: center;
-  color: #1e293b;
-  font-weight: 900;
-}
-
-.logout-btn {
-  grid-column: 2 / 3;
-  justify-self: end;
-  background: #f43f5e;
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 0.55rem 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.error-msg {
-  grid-column: 1 / -1;
-  color: #b91c1c;
-  background: #fff1f2;
-  border: 1px solid #ffe4e6;
-  border-radius: 10px;
-  padding: 0.6rem 0.75rem;
+/* Profile Picture Section */
+.profile-picture-section {
   text-align: center;
-  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
 }
 
-.profile-card input {
-  padding: 0.9rem 0.95rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  font-size: 1rem;
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  font-size: 2rem;
+  color: white;
+  font-weight: 700;
+  border: 3px solid white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-picture-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upload-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.upload-btn input[type="file"] {
+  display: none;
+}
+
+/* Logout Button */
+.logout-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* Profile Form */
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.form-group input {
+  padding: 0.625rem 0.875rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
   outline: none;
-  background: #ffffff;
-  transition: 0.2s ease;
-  min-height: 46px;
+  background: white;
+  transition: all 0.3s ease;
+  min-height: 40px;
   box-sizing: border-box;
 }
 
-.profile-card input:focus {
-  border-color: #ffd700;
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.18);
+.form-group input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+.form-group input:disabled {
+  background: #f8fafc;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.password-strength.weak {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.password-strength.medium {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fed7aa;
+}
+
+.password-strength.strong {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Success/Error Messages */
+.success-message,
+.error-message {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.success-message {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+/* Update Button */
 .update-btn {
   grid-column: 1 / -1;
-  padding: 0.95rem 1rem;
-  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.08s ease, box-shadow 0.2s ease;
-  min-height: 46px;
-  font-weight: 800;
-  background: linear-gradient(45deg, #ffd700, #ffed4e);
-  color: #1e293b;
+  transition: all 0.3s ease;
+  min-height: 44px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.update-btn:hover { box-shadow: 0 14px 30px rgba(255, 215, 0, 0.25); }
-.update-btn:active { transform: translateY(1px) scale(0.995); }
+.update-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
 
-/* Responsive tweaks */
-@media (max-width: 640px) {
-  .profile-card { grid-template-columns: 1fr; max-width: 480px; }
-  .logout-btn { grid-column: 1; justify-self: end; }
+.update-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.update-btn.loading {
+  background: #6b7280;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .profile-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .profile-form {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+  
+  .logout-btn {
+    position: static;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  
+  .profile-picture {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-wrapper {
+    padding: 1rem;
+  }
+  
+  .profile-card {
+    padding: 1.25rem;
+  }
+  
+  .profile-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .profile-picture {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .form-group input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    min-height: 36px;
+  }
+  
+  .update-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    min-height: 40px;
+  }
+  
+  .form-group label {
+    font-size: 0.8rem;
+  }
 }

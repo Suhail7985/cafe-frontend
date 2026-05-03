@@ -3,14 +3,12 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 import { AppContext } from "../App";
-import axios from "axios";
+
 export default function Cart() {
   const { user, cart, setCart } = useContext(AppContext);
   const [orderValue, setOrderValue] = useState(0);
-  const [error, setError] = useState();
-  const Navigate = useNavigate();
-  const navigate= useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+
   const increment = (id, qty) => {
     const updatedCart = cart.map((product) =>
       product._id === id ? { ...product, qty: qty + 1 } : product
@@ -40,68 +38,78 @@ export default function Cart() {
     );
   }, [cart]);
 
-  const placeOrder = async () => {
-    try {
-      const url = `${API_URL}/api/orders`;
-      const newOrder = {
-        userId: user._id,
-        email: user.email,
-        orderValue,
-        items: cart,
-      };
-      const result = await axios.post(url, newOrder);
-      setCart([])
-      Navigate("/order");
-    } catch (err) {
-      console.log(err);
-      setError("Something went wrong");
-    }
-  };
+  if (cart.length === 0) {
+    return (
+      <div className="cart-container">
+        <h2 className="cart-title">My Cart</h2>
+        <div className="empty-cart">
+          <div className="empty-cart-icon">🛒</div>
+          <h3>Your cart is empty</h3>
+          <p>Start shopping to add delicious desserts to your cart!</p>
+          <button onClick={() => navigate("/products")} className="browse-btn">
+            Browse Products
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-container">
-  <h2 className="cart-title">My Cart</h2>
-  {error && <p className="error-message">{error}</p>}
-  {cart &&
-    cart.map(
-      (value) =>
+      <h2 className="cart-title">My Cart</h2>
+      
+      {cart.map((value) => (
         value.qty > 0 && (
           <div key={value._id} className="cart-item">
-            <span>{value.productName}</span>
-            <span>₹{value.price}</span>
-            <div className="qty-buttons">
-              <button onClick={() => decrement(value._id, value.qty)}>-</button>
-              <span>{value.qty}</span>
-              <button onClick={() => increment(value._id, value.qty)}>+</button>
+            <img 
+              src={value.imgUrl} 
+              alt={value.productName} 
+              className="cart-item-image"
+            />
+            <div className="cart-item-details">
+              <h3 className="cart-item-name">{value.productName}</h3>
+              <p className="cart-item-price">₹{value.price} each</p>
             </div>
-            <span>₹{value.price * value.qty}</span>
+            <div className="qty-buttons">
+              <button 
+                onClick={() => decrement(value._id, value.qty)}
+                disabled={value.qty <= 1}
+              >
+                -
+              </button>
+              <span>{value.qty}</span>
+              <button onClick={() => increment(value._id, value.qty)}>
+                +
+              </button>
+            </div>
+            <div className="cart-item-total">
+              ₹{value.price * value.qty}
+            </div>
           </div>
         )
-    )}
-<h5 className="order-value">Order Value: ₹{orderValue}</h5>
-{user?.token ? (
-  <button
-    className="place-order-btn"
-    onClick={() => {
-      const hasItems = cart.some(item => item.qty > 0);
-      if (!hasItems) {
-        alert("Your cart is empty! Please add items before placing an order.");
-        return;
-      }
-      navigate("/payment");
-    }}
-  >
-    Place Order
-  </button>
-) : (
-  <button
-    className="place-order-btn"
-    onClick={() => navigate("/login")}
-  >
-    Login to Order
-  </button>
-)}
-
-</div>
+      ))}
+      
+      <div className="order-summary">
+        <h3 className="order-value">Total: ₹{orderValue}</h3>
+        
+        <div className="cart-actions">
+          {user?.token ? (
+            <button
+              className="place-order-btn"
+              onClick={() => navigate("/payment")}
+            >
+              Proceed to Payment
+            </button>
+          ) : (
+            <button
+              className="login-to-order-btn"
+              onClick={() => navigate("/login")}
+            >
+              Login to Order
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

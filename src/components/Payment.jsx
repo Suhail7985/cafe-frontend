@@ -35,10 +35,12 @@ export default function Payment() {
   // Function to create order in database
   const createOrder = async () => {
     try {
+      if (!user?.token) {
+        throw new Error("User not authenticated");
+      }
+
       const url = `${API_URL}/api/orders`;
       const newOrder = {
-        userId: user.id || user._id, // Handle both id formats
-        email: user.email,
         orderValue: total,
         items: cart,
         deliveryAddress: {
@@ -52,7 +54,11 @@ export default function Payment() {
         }
       };
       
-      const result = await axios.post(url, newOrder);
+      const result = await axios.post(url, newOrder, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       console.log("Order created:", result.data);
       
       // Clear cart after successful order
@@ -61,7 +67,7 @@ export default function Payment() {
       return result.data;
     } catch (err) {
       console.error("Error creating order:", err);
-      throw new Error("Failed to create order");
+      throw new Error(err.response?.data?.message || "Failed to create order");
     }
   };
 
@@ -148,9 +154,17 @@ export default function Payment() {
       setUpiError("");
       setIsProcessing(true);
 
+      // Load Razorpay script
       await loadRazorpay();
+      
+      // Verify Razorpay is loaded
+      if (!window.Razorpay) {
+        throw new Error("Razorpay SDK failed to load. Please refresh the page.");
+      }
+
       const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
+      // Create Razorpay order
       const orderRes = await fetch(`${baseUrl}/api/payments/razorpay/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -166,53 +180,84 @@ export default function Payment() {
 
       if (!orderRes.ok) {
         const errorData = await orderRes.json();
-        throw new Error(errorData.message || "Failed to create order");
+        throw new Error(errorData.message || "Failed to create Razorpay order");
       }
+      
       const orderData = await orderRes.json();
       const { orderId, amount, currency, keyId } = orderData;
 
+      if (!orderId || !keyId) {
+        throw new Error("Invalid response from payment server");
+      }
+
+      // Configure Razorpay options
       const options = {
         key: keyId,
         order_id: orderId,
-        amount,
-        currency,
+        amount: amount,
+        currency: currency || "INR",
         name: "The Dessert Lab",
         description: "Order Payment",
         prefill: {
           email: formData.email,
-          contact: formData.phone
+          contact: formData.phone,
+          name: formData.name
         },
-        notes: { address: formData.address },
+        notes: { 
+          address: formData.address,
+          order_items: cart.map(i => `${i.productName}x${i.qty}`).join(", ")
+        },
         theme: { color: "#7c3aed" },
         handler: async function (response) {
           try {
+            setIsProcessing(true);
             const verifyRes = await fetch(`${baseUrl}/api/payments/razorpay/verify`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(response)
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
             });
             const verifyData = await verifyRes.json();
             if (verifyRes.ok && verifyData.success) {
-              // Create order after successful payment
+              // Create order after successful payment verification
               await createOrder();
               alert("Payment successful! Order placed successfully.");
               navigate("/order");
             } else {
-              setUpiError(verifyData.message || "Verification failed.");
+              setUpiError(verifyData.message || "Payment verification failed.");
+              setIsProcessing(false);
             }
           } catch (e) {
             console.error("Payment verification error:", e);
-            setUpiError("Verification error. Please try again.");
-          } finally {
+            setUpiError("Verification error. Please contact support if payment was deducted.");
             setIsProcessing(false);
           }
         },
-        modal: { ondismiss: () => setIsProcessing(false) }
+        modal: { 
+          ondismiss: () => {
+            setIsProcessing(false);
+            console.log("Payment modal closed by user");
+          }
+        },
+        onerror: function(error) {
+          console.error("Razorpay error:", error);
+          setUpiError("Payment failed: " + (error.error?.description || "Unknown error"));
+          setIsProcessing(false);
+        }
       };
 
+      // Open Razorpay checkout
       const rzp = new window.Razorpay(options);
       rzp.open();
+      
+      // Note: setIsProcessing(false) is not called here because the modal is now open
+      // It will be called in the handler or onerror callbacks
+      
     } catch (err) {
+      console.error("Payment initialization error:", err);
       setUpiError(err.message || "Something went wrong. Please try again.");
       setIsProcessing(false);
     }
@@ -408,3 +453,4 @@ export default function Payment() {
     </div>
   );
 }
+

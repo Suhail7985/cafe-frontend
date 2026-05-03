@@ -61,6 +61,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="admin" element={<Admin />}>
               <Route index element={<Users />} />
+              <Route path="users" element={<Users />} />
               <Route path="products" element={<Product />} /> {/* ✅ Keep old Product component for admin */}
               <Route path="orders" element={<Orders />} />
               <Route path="subscribers" element={<Subscribers />} />

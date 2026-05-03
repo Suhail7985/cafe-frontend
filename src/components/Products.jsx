@@ -23,7 +23,7 @@ export default function Products() {
       setError("");
       
       // Fetch a large number to get all products (adjust limit as needed)
-      const url = `${API_URL}/api/products?page=1&limit=1000`;
+      const url = `${API_URL}/api/products/all?page=1&limit=1000`;
       const result = await axios.get(url);
       setAllProducts(result.data.products || []);
       
